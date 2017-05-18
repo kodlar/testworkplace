@@ -25,9 +25,9 @@ namespace TestPlatform
        {
 
             //Send Code
-            
-            //var factory = new ConnectionFactory() { HostName = "10.21.50.60" };
-            var factory = new ConnectionFactory() { HostName = "localhost" };
+            /*
+            var factory = new ConnectionFactory() { HostName = "10.21.50.60" };
+            //var factory = new ConnectionFactory() { HostName = "localhost" };
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
@@ -41,20 +41,20 @@ namespace TestPlatform
                                                  body: body);
                 Console.WriteLine(" [x] Gönderildi {0}", message);
             }
-
+           */
 
             //Receive Kod
-            /*
+            
             var factory = new ConnectionFactory() { HostName = "10.21.50.60" };
             using ( var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.ExchangeDeclare(exchange: "posta-logs", type: "fanout");
+                channel.ExchangeDeclare(exchange: "fanatik-logs", type: "fanout");
 
                 var queueName = channel.QueueDeclare().QueueName;
                 channel.QueueBind(queue: queueName,
-                                  exchange: "posta-logs",
-                                  routingKey: "");
+                                  exchange: "fanatik-logs",
+                                  routingKey: "#");
 
                 Console.WriteLine(" [*] Waiting for logs.");
 
@@ -81,8 +81,8 @@ namespace TestPlatform
 
               
                 
-            } */
-
+            }
+            
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
 
