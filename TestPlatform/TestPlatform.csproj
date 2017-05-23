@@ -54,6 +54,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DateTimeTest.cs" />
+    <Compile Include="Helper\Util.cs" />
+    <Compile Include="Model\LiveCommentaries\OptaFeedLiveCommentaryMessage.cs" />
+    <Compile Include="Model\LiveCommentaries\OptaFeedLiveCommentary.cs" />
+    <Compile Include="Model\Squad\OptaFeedSquadPerson.cs" />
+    <Compile Include="Model\Squad\OptaFeedSquadPlayer.cs" />
+    <Compile Include="Model\Squad\OptaFeedSquadPlayerChanges.cs" />
+    <Compile Include="Model\Squad\OptaFeedSquadSoccerDocument.cs" />
+    <Compile Include="Model\Squad\OptaFeedSquadSoccerFeed.cs" />
+    <Compile Include="Model\Squad\OptaFeedSquadStadium.cs" />
+    <Compile Include="Model\Squad\OptaFeedSquadStat.cs" />
+    <Compile Include="Model\Squad\OptaFeedSquadTeam.cs" />
+    <Compile Include="Model\Squad\OptaFeedSquadTeamOfficial.cs" />
+    <Compile Include="Parser\LiveCommentaries\OptaFeedLiveCommentaryParser.cs" />
+    <Compile Include="Parser\Squad\OptaFeedSquadParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RabbitMqTestExchange.cs" />
