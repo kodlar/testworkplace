@@ -134,6 +134,8 @@ namespace TestPlatform.Parser.Squad
                                                         var playerChangesNode = currentNode.ChildNodes[g];
 
                                                         var playerList = new List<OptaFeedSquadPlayer>();
+                                                        var teamOfficialList = new List<OptaFeedSquadTeamOfficial>();
+
                                                         var teamSquad = new OptaFeedSquadTeam();
 
                                                         if (playerChangesNode.Attributes != null && playerChangesNode.Attributes.Count > 0)
@@ -158,9 +160,12 @@ namespace TestPlatform.Parser.Squad
                                                                     case "Player":
                                                                         playerList.Add(Player(playerNode));
                                                                         break;
+                                                                    case "TeamOfficial":
+                                                                        teamOfficialList.Add(TeamOfficial(playerNode));
+                                                                        break;
                                                                 }
                                                                 teamSquad.Player = playerList;
-                                                               
+                                                                teamSquad.TeamOfficial = teamOfficialList;
                                                             }
                                                             teamSquadList.Add(teamSquad);
                                                         }
@@ -200,7 +205,7 @@ namespace TestPlatform.Parser.Squad
                                                             team.Stadium = Stadium(teamElementName);
                                                             break;
                                                         case "TeamOfficial":
-                                                            team.TeamOfficial = TeamOfficial(teamElementName);
+                                                            team.TeamOfficial = TeamOfficialList(teamElementName);
                                                             break;
                                                     }
                                                                                                     
@@ -269,7 +274,7 @@ namespace TestPlatform.Parser.Squad
             return stadium;
         }
         //Teknik direktör bilgisi
-        private static List<OptaFeedSquadTeamOfficial> TeamOfficial(XmlNode node)
+        private static List<OptaFeedSquadTeamOfficial> TeamOfficialList(XmlNode node)
         {
             List<OptaFeedSquadTeamOfficial> lst = new List<OptaFeedSquadTeamOfficial>();
             var teamOfficial = new OptaFeedSquadTeamOfficial();
@@ -337,6 +342,76 @@ namespace TestPlatform.Parser.Squad
 
             return lst;
         }
+
+
+        private static OptaFeedSquadTeamOfficial TeamOfficial(XmlNode node)
+        {
+            
+            var teamOfficial = new OptaFeedSquadTeamOfficial();
+
+            if (node.Attributes.Count > 0)
+            {
+                for (int i = 0; i < node.Attributes.Count; i++)
+                {
+                    var nodeAttribute = node.Attributes[i];
+                    switch (nodeAttribute.Name)
+                    {
+                        case "Type":
+                            teamOfficial.Type = nodeAttribute.Value;
+                            break;
+                        case "country":
+                            teamOfficial.Country = nodeAttribute.Value;
+                            break;
+                        case "uID":
+                            teamOfficial.UID = nodeAttribute.Value;
+                            break;
+                    }
+                }
+            }
+
+            if (node.HasChildNodes)
+            {
+                var person = new OptaFeedSquadPerson();
+                for (int j = 0; j < node.ChildNodes.Count; j++)
+                {
+                    var nodeChildNode = node.ChildNodes[j];
+
+                    if (nodeChildNode.HasChildNodes)
+                    {
+                        for (int z = 0; z < nodeChildNode.ChildNodes.Count; z++)
+                        {
+                            var subChildNode = nodeChildNode.ChildNodes[z];
+
+                            switch (subChildNode.Name)
+                            {
+                                case "BirthDate":
+                                    person.BirthDate = subChildNode.InnerText;
+                                    break;
+                                case "First":
+                                    person.First = subChildNode.InnerText;
+                                    break;
+                                case "Last":
+                                    person.Last = subChildNode.InnerText;
+                                    break;
+                                case "join_date":
+                                    person.Join_date = subChildNode.InnerText;
+                                    break;
+                                case "leave_date":
+                                    person.Leave_date = subChildNode.InnerText;
+                                    break;
+                            }
+                        }
+                    }
+
+                }
+
+                teamOfficial.PersonName = person;
+            }
+
+           
+            return teamOfficial;
+        }
+
         //Oyuncu bilgisi
         private static OptaFeedSquadPlayer Player(XmlNode node)
         {
