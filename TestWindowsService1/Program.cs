@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Specialized;
+using System.Diagnostics;
 using System.ServiceProcess;
-using System.Text;
 using System.Threading.Tasks;
+using Quartz;
+using Quartz.Impl;
 
 namespace TestWindowsService1
 {
@@ -14,12 +14,29 @@ namespace TestWindowsService1
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
+            if (Debugger.IsAttached)
             {
+                Common.Logging.LogManager.Adapter = new Common.Logging.Simple.ConsoleOutLoggerFactoryAdapter { Level = Common.Logging.LogLevel.Info };
+                //Debug.WriteLine("holaaaa!....");
+                JobController jobs = new JobController();
+                jobs.Work();
+                // construct a scheduler factory
+               
+            }
+            else
+            {
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[]
+                {
                 new Service1()
-            };
-            ServiceBase.Run(ServicesToRun);
+                };
+                ServiceBase.Run(ServicesToRun);
+            }
+
+
         }
+
+
+       
     }
 }
